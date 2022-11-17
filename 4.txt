@@ -1,0 +1,153 @@
+import pandas as pd
+
+df = pd.read_csv('SMSSpamCollection', sep = '\t', names = ['Label','Text'])
+
+df
+
+df.shape
+
+!pip install nltk
+
+import nltk
+
+nltk.download('stopwords')
+
+nltk.download('punkt')
+
+sent = 'Hello friends! How are you?'
+
+from nltk.tokenize import word_tokenize
+word_tokenize(sent)
+
+from nltk.corpus import stopwords
+swords = stopwords.words('english')
+
+clean = [word for word in word_tokenize(sent) if word not in swords]
+
+clean
+
+from nltk.stem import PorterStemmer
+ps = PorterStemmer()
+clean = [ps.stem(word) for word in word_tokenize(sent) if word not in swords]
+
+clean
+sent = 'Hello, friends ! How are you ? We Will be learning Python today. '
+
+def clean_text(sent):
+    tokens = word_tokenize(sent)
+    clean = [word for word in tokens 
+             if word.isdigit() or word.isalpha()]
+    clean = [ps.stem(word) for word in clean 
+             if word not in swords]
+    return (clean)
+
+clean_text(sent)
+
+# Pre-processing
+from sklearn.feature_extraction.text import TfidfVectorizer
+tfidf = TfidfVectorizer( analyzer = clean_text)
+
+x = df['Text']
+y = df['Label']
+
+x_new = tfidf.fit_transform(x)
+
+
+x.shape
+
+x_new.shape
+
+tfidf.get_feature_names()
+
+ y.value_counts()
+
+# Cross validation
+from sklearn.model_selection import train_test_split
+
+# Cross validation
+from sklearn.model_selection import train_test_split
+
+x_train.shape
+x_test.shape
+
+from sklearn.naive_bayes import GaussianNB
+
+nb = GaussianNB()
+
+nb.fit(x_train.toarray(), y_train)
+
+y_pred = nb.predict(x_test.toarray())
+
+y_test.value_counts()
+
+from sklearn.metrics import ConfusionMatrixDisplay
+ConfusionMatrixDisplay.from_predictions(y_test, y_pred);
+
+from sklearn.metrics import accuracy_score , classification_report
+
+print(classification_report(y_test, y_pred))
+
+accuracy_score(y_test,y_pred)
+
+from sklearn.ensemble import RandomForestClassifier
+
+rf = RandomForestClassifier(random_state = 0)
+
+rf.fit(x_train, y_train)
+
+y_pred = rf.predict(x_test)
+
+ConfusionMatrixDisplay.from_predictions(y_test, y_pred);
+
+print(classification_report(y_test, y_pred))
+
+accuracy_score(y_test, y_pred)
+
+from sklearn.linear_model import LogisticRegression
+log = LogisticRegression()
+log.fit(x_train, y_train)
+y_pred = log.predict(x_test)
+accuracy_score(y_test, y_pred)
+
+# Hyper parameter tuning
+from sklearn.model_selection import GridSearchCV
+
+params = {
+    'criterion' : ['gini','entropy'],
+    'max_features' : ['sqrt','log2'],
+    'random_state' : [0,1,2,3,4],
+    'class_weight' : ['balanced','balanced_subsample']
+}
+
+grid = GridSearchCV(rf, param_grid=params , cv=5, scoring = 'accuracy')
+
+grid.fit(x_train, y_train)
+
+rf = grid.best_estimator_
+
+y_pred = rf.predict(x_test)
+
+accuracy_score(y_test, y_pred)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

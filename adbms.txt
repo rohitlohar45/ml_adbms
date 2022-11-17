@@ -1,0 +1,58 @@
+db.students.insertMany([
+  { id: 1, name: 'Ryan', gender: 'M' ,city : 'Pune'},
+  { id: 2, name: 'Joanna', gender: 'F',city : 'Mumbai' },
+  { id: 3, name: 'Rohit' , gender: 'M',city : 'Mumbai'},
+  { id: 4, name: 'aval' , gender: 'M',city : 'Delhi'},
+  { id: 5, name: 'Prachi' , gender: 'F',city : 'Goa'},
+  { id: 6, name: 'Tushar' , gender: 'M',city : 'Goa'},
+  { id: 7, name: 'Ankita' , gender: 'F',city : 'Goa'},
+  { id: 8, name: 'Siddhi' , gender: 'F',city : 'Pune'},
+  { id: 9, name: 'Richa' , gender: 'F',city : 'Pune'},
+  { id: 10, name: 'Goldy' , gender: 'M',city : 'Mumbai'},
+]);
+
+db.students.insert({ id: '11' , name: 'XYZ'})
+
+// db.students.find({ gender: 'F' }).pretty();
+
+// db.students.find({ gender:{$nin:['F']}}).pretty();
+
+// db.students.find().sort({"name":1}).limit(10)
+
+// db.students.find( { $and: [ { id: { $gt: 5 } }, { gender : { $exists: true } } ] } )
+
+// db.students.find( { gender : { $exists: true } } )
+
+// db.students.updateOne( { id : 11},{ $set : { city : 'Pune'}})
+
+// db.students.find( { $or : [ { id : { $gt : 5}}, {  gender : { $eq : 'M'}}]}).pretty()
+
+// db.students.find( { $and : [ { id : { $gt : 5}}, {  gender : { $eq : 'M'}}]}).pretty()
+
+// db.students.find( { id : {$type : 'string'} })
+
+// db.students.find( { name : /^R/})
+
+// db.students.find( { name : /a$/})
+
+// db.students.find( { city : /une/})
+
+// var pipeline = [
+// 	{$sort : {name : 1}},
+// 	{$limit : 5}
+// ]
+
+// db.students.aggregate(pipeline)
+
+// db.students.find()
+
+var map = function(){emit(this.name, this.city)}
+var reduce =  function(name,city){return name;};
+
+db.students.mapReduce(map,reduce,{out:"employee"})
+
+db.employee.find()
+
+
+
+

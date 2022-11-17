@@ -1,0 +1,73 @@
+import os
+os.getcwd()
+
+import pandas as pd
+
+df = pd.read_csv("Heart.csv")
+
+df.head()
+
+df.shape
+
+df.isnull()
+
+#Find missing
+df.isnull().sum()
+
+df.count()
+
+df.info
+
+#Find data types of each column
+df.dtypes
+
+#Find out the zeros
+df == 0
+
+df[df == 0].count()
+
+#Find the mean age of patient
+df.columns
+
+df['Age']
+
+df['Age'].mean
+
+df['Age'].describe()
+
+# Extract only
+df[['Age', 'Sex', 'ChestPain' , 'RestBP', 'Chol']]
+
+newdf = df[['Age', 'Sex', 'ChestPain' , 'RestBP', 'Chol']]
+
+newdf
+
+#Cross validation
+from sklearn.model_selection import train_test_split
+
+train, test = train_test_split(df, random_state=0, test_size = 0.25)
+
+
+train.shape
+
+test.shape
+
+import numpy as np
+
+actual = list(np.ones(45)) + list(np.zeros(55))
+
+np.array(actual)
+
+predicted = list(np.ones(40)) + list(np.zeros(52)) + list(np.ones(8))
+
+np.array(predicted)
+
+from sklearn.metrics import ConfusionMatrixDisplayz
+
+ConfusionMatrixDisplay.from_predictions(actual, predicted)
+
+from sklearn.metrics import classification_report
+print(classification_report(actual, predicted))
+
+from sklearn.metrics import accuracy_score
+accuracy_score(actual, predicted)
